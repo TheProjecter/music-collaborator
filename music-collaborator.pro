@@ -1,4 +1,7 @@
-HEADERS += MusicCollaboratorDialog.h
-SOURCES += MusicCollaboratorDialog.cpp
-FORMS += MusicCollaboratorDialog.ui
+HEADERS += MusicCollaboratorDialog.h \
+    MCMainWindow.h
+SOURCES += MusicCollaboratorDialog.cpp \
+    MCMainWindow.cpp
+FORMS += MusicCollaboratorDialog.ui \
+    MCMainWindow.ui
 RESOURCES += Resources.qrc
