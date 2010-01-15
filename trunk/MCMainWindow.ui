@@ -6,36 +6,107 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>381</height>
+    <width>504</width>
+    <height>292</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="music-collaborator/Resources.qrc">
+   <iconset resource="Resources.qrc">
     <normaloff>:/Icons/icon-application</normaloff>:/Icons/icon-application</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeView" name="m_repositoryView">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>40</y>
-      <width>321</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTreeView" name="m_repositoryView"/>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QToolButton" name="m_btnUp">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Resources.qrc">
+          <normaloff>:/Icons/icon-up</normaloff>:/Icons/icon-up</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="m_btnDown">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Resources.qrc">
+          <normaloff>:/Icons/icon-down</normaloff>:/Icons/icon-down</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="m_btnAdd">
+        <property name="toolTip">
+         <string>Add new Project path...</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Resources.qrc">
+          <normaloff>:/Icons/icon-add</normaloff>:/Icons/icon-add</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="m_btnRemove">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Remove Selected Path</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Resources.qrc">
+          <normaloff>:/Icons/icon-remove</normaloff>:/Icons/icon-remove</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>479</width>
-     <height>20</height>
+     <width>504</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -65,7 +136,7 @@
   </action>
  </widget>
  <resources>
-  <include location="music-collaborator/Resources.qrc"/>
+  <include location="Resources.qrc"/>
  </resources>
  <connections/>
 </ui>
