@@ -1,9 +1,11 @@
 <RCC>
     <qresource prefix="/Icons">
-        <file alias="icon-add">add.png</file>
-        <file alias="icon-application">appicon.png</file>
-        <file alias="icon-remove">remove.png</file>
-        <file alias="icon-up">up.png</file>
-        <file alias="icon-down">down.png</file>
+        <file alias="icon-add">Icons/add.png</file>
+        <file alias="icon-application">Icons/appicon.png</file>
+        <file alias="icon-remove">Icons/remove.png</file>
+        <file alias="icon-up">Icons/up.png</file>
+        <file alias="icon-down">Icons/down.png</file>
+        <file alias="icon-add-file">Icons/addFile.png</file>
+        <file alias="icon-add-folder">Icons/addFolder.png</file>
     </qresource>
 </RCC>
