@@ -13,10 +13,14 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="Resources.qrc">
+    <normaloff>:/Icons/icon-application</normaloff>:/Icons/icon-application</iconset>
+  </property>
   <widget class="QToolButton" name="toolButton">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>360</x>
      <y>10</y>
      <width>25</width>
      <height>24</height>
@@ -28,16 +32,6 @@
    <property name="icon">
     <iconset resource="Resources.qrc">
      <normaloff>:/Icons/icon-add</normaloff>:/Icons/icon-add</iconset>
-   </property>
-  </widget>
-  <widget class="QTreeView" name="treeView">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>351</width>
-     <height>192</height>
-    </rect>
    </property>
   </widget>
  </widget>

@@ -24,3 +24,12 @@ void MusicCollaboratorDialog::changeEvent(QEvent *e)
         break;
     }
 }
+
+void loadSettings()
+{
+}
+
+void saveSettings()
+{
+
+}

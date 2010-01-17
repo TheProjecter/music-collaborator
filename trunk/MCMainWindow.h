@@ -14,10 +14,16 @@ public:
     ~MCMainWindow();
 
 protected:
+    void loadSettings();
+    void saveSettings();
     void changeEvent(QEvent *e);
 
 private:
     Ui::MCMainWindow *ui;
+
+private slots:
+    void on_actionAdd_Project_File_triggered();
+    void on_actionAdd_Project_Folder_triggered();
 };
 
 #endif // MCMAINWINDOW_H
