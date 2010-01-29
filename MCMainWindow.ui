@@ -6,21 +6,62 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
-    <height>331</height>
+    <width>506</width>
+    <height>342</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resources.qrc">
     <normaloff>:/Icons/icon-application</normaloff>:/Icons/icon-application</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QTreeView" name="m_repositoryView"/>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Local repository view</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTreeView" name="m_localRepositoryView"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Remote repository view</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTreeView" name="m_remoteRepositoryView"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -33,7 +74,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resources.qrc">
           <normaloff>:/Icons/icon-up</normaloff>:/Icons/icon-up</iconset>
         </property>
        </widget>
@@ -47,7 +88,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resources.qrc">
           <normaloff>:/Icons/icon-down</normaloff>:/Icons/icon-down</iconset>
         </property>
        </widget>
@@ -105,7 +146,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="Resources.qrc">
           <normaloff>:/Icons/icon-remove</normaloff>:/Icons/icon-remove</iconset>
         </property>
        </widget>
@@ -119,8 +160,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>516</width>
-     <height>22</height>
+     <width>506</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -129,7 +170,20 @@
     </property>
     <addaction name="actionE_xit"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionPreferences"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="fileToolBar">
@@ -174,7 +228,14 @@
     <string>Add a new project folder to share</string>
    </property>
   </action>
+  <action name="actionPreferences">
+   <property name="text">
+    <string>Preferences...</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
