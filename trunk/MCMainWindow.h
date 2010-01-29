@@ -1,7 +1,10 @@
 #ifndef MCMAINWINDOW_H
 #define MCMAINWINDOW_H
 
+#include "LocalRepositoryModel.h"
+
 #include <QMainWindow>
+
 
 namespace Ui {
     class MCMainWindow;
@@ -18,12 +21,15 @@ protected:
     void saveSettings();
     void changeEvent(QEvent *e);
 
-private:
-    Ui::MCMainWindow *ui;
-
 private slots:
     void on_actionAdd_Project_File_triggered();
     void on_actionAdd_Project_Folder_triggered();
+    void on_actionPreferences_triggered();
+
+private:
+    Ui::MCMainWindow *ui;
+
+    LocalRepositoryModel    m_localModel;
 };
 
 #endif // MCMAINWINDOW_H
