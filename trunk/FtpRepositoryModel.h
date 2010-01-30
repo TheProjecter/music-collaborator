@@ -1,20 +1,18 @@
-#ifndef LOCALREPOSITORYMODEL_H
-#define LOCALREPOSITORYMODEL_H
+#ifndef FTPREPOSITORYMODEL_H
+#define FTPREPOSITORYMODEL_H
 
 #include <QAbstractItemModel>
-#include <QFileInfo>
-#include <QFileSystemWatcher>
+#include <QFtp>
 
-class FileItem;
+class FtpFileItem;
 
-class LocalRepositoryModel : public QAbstractItemModel
+class FtpRepositoryModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    LocalRepositoryModel();
-    ~LocalRepositoryModel();
+    FtpRepositoryModel();
+    ~FtpRepositoryModel();
 
-    void addFile( const QFileInfo& file );
     int columnCount( const QModelIndex & parent = QModelIndex() ) const;
     QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -22,9 +20,16 @@ public:
     QModelIndex	parent ( const QModelIndex & index ) const;
     int	rowCount( const QModelIndex & parent = QModelIndex() ) const;
 
+protected slots:
+    void ftpCommandFinished( int id, bool error );
+    void ftpFileListing( const QUrlInfo& urlinfo );
+
 protected:
-    FileItem*           m_rootItem;
-    QFileSystemWatcher* m_fsWatcher;
+    void resetFtpConnection();
+    void refreshFileListing();
+
+    FtpFileItem*        m_rootItem;
+    QFtp*               m_ftpConnection;
 };
 
-#endif // LOCALREPOSITORYMODEL_H
+#endif // FTPREPOSITORYMODEL_H

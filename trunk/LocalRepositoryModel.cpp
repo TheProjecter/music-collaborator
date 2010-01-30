@@ -1,89 +1,55 @@
 #include "LocalRepositoryModel.h"
+#include "FileItem.h"
 
+#include <QDebug>
 #include <QDir>
+#include <QIcon>
 #include <QSettings>
-
-
-
-FileItem::FileItem(FileItem *parent, const QString &path, int rowNumber)
-    : m_rownumber( rowNumber ), m_parent( parent )
-{
-    m_fileInfo = QFileInfo( path );
-}
-
-QString FileItem::path()
-{
-    return m_fileInfo.absoluteFilePath();
-}
-
-
-FileItem* FileItem::child(int n)
-{
-    if( m_children.contains( n ) )
-        return m_children[n];
-
-    if( m_fileInfo.isDir() )
-    {
-        QStringList lst = m_fileInfo.dir().entryList( QDir::AllEntries );
-        if( n < lst.size() )
-        {
-            FileItem* item = new FileItem( this, lst[n], n );
-            m_children[n] = item;
-            return item;
-        }
-    }
-    return 0;
-}
-
-
-void FileItem::addPath(const QString &path )
-{
-    FileItem* fi = new FileItem( this, path, m_children.size() );
-    m_children[ m_children.size() ] = fi;
-}
-
+#include <QString>
 
 
 LocalRepositoryModel::LocalRepositoryModel()
 {
     QSettings settings;
-    m_rootItem = new FileItem( 0, "", 0 );
+    m_rootItem = new FileItem( 0, QFileInfo(), 0 );
+    m_fsWatcher = new QFileSystemWatcher( this );
 
     unsigned int count = settings.beginReadArray( "local-repository" );
     for( unsigned int i=0; i<count; ++i )
     {
         settings.setArrayIndex( i );
-        m_rootItem->addPath( settings.value( "path" ).toString() );
-        m_stringList.append( settings.value( "path" ).toString() );
+        QString path = settings.value( "path" ).toString();
+        m_rootItem->addFile( path );
+        m_fsWatcher->addPath( path );
     }
 }
 
 LocalRepositoryModel::~LocalRepositoryModel()
 {
     QSettings settings;
-    settings.beginWriteArray( "local-repository", m_stringList.size() );
-    for( int i=0; i<m_stringList.size(); ++i )
+    settings.beginWriteArray( "local-repository", m_rootItem->getRowCount() );
+    for( int i=0; i<m_rootItem->getRowCount(); ++i )
     {
         settings.setArrayIndex( i );
-        settings.setValue( "path", m_stringList.at( i ) );
+        settings.setValue( "path", m_rootItem->child( i )->fileInfo().absoluteFilePath() );
     }
     settings.endArray();
 }
 
 
-void LocalRepositoryModel::addFile( const QString &file )
+void LocalRepositoryModel::addFile( const QFileInfo &file )
 {
-    emit beginInsertRows( QModelIndex(), 0, m_stringList.size()+1 );
-    m_stringList.append( file );
-    m_rootItem->addPath( file );
+    emit beginInsertRows( QModelIndex(), m_rootItem->getRowCount(),
+                          m_rootItem->getRowCount() );
+    m_rootItem->addFile( file );
     emit endInsertRows();
 }
 
 
 QVariant LocalRepositoryModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if( orientation == Qt::Horizontal && section==0 )
-        return QString( "Local Project" );
+    if( orientation == Qt::Horizontal && role==Qt::DisplayRole && section==0 )
+        return QString( "Local Files" );
     return QVariant();
 }
 
@@ -95,23 +61,58 @@ int LocalRepositoryModel::columnCount(const QModelIndex &parent) const
 
 QVariant LocalRepositoryModel::data(const QModelIndex &index, int role) const
 {
-    if( index.column()==0 && index.row()<m_stringList.size() )
-        return m_stringList.at( index.row() );
-    return QVariant();
+    if( !index.isValid() )
+        return QVariant();
+
+    FileItem* item = static_cast<FileItem*>( index.internalPointer() );
+    if( role == Qt::DisplayRole )
+        return item->fileInfo().fileName();
+    else if( role==Qt::DecorationRole )
+        return QIcon( ":/folder" );
+    else if( role==Qt::ToolTipRole )
+        return "A tooltip stuffy .. ";
+    else if( role == Qt::StatusTipRole )
+        return "A statustip stuffy .. ";
+    else
+        return QVariant();
 }
 
 QModelIndex LocalRepositoryModel::index( int row, int column, const QModelIndex &parent ) const
 {
-    if( column==0 && row<m_stringList.count() )
+    if( !hasIndex( row, column, parent ))
+        return QModelIndex();
+
+    FileItem* parentItem;
+    if( !parent.isValid() )
+        parentItem = m_rootItem;
+    else
+        parentItem = static_cast<FileItem*>( parent.internalPointer() );
+
+    FileItem* child = parentItem->child( row );
+    if( child )
+        return createIndex( row, column, child );
     return QModelIndex();
 }
 
-QModelIndex LocalRepositoryModel::parent(const QModelIndex &index) const
+
+QModelIndex LocalRepositoryModel::parent(const QModelIndex &child) const
 {
-    return QModelIndex();
+    if( !child.isValid() )
+        return QModelIndex();
+    FileItem* childItem = static_cast<FileItem*>( child.internalPointer() );
+    FileItem* parentItem = childItem->parent();
+    if( parentItem==0 || parentItem == m_rootItem )
+        return QModelIndex();
+    return createIndex( parentItem->getRowNumber(), 0, parentItem );
 }
+
 
 int LocalRepositoryModel::rowCount(const QModelIndex &parent) const
 {
-    return m_stringList.size();
+    FileItem* parentItem;
+    if( !parent.isValid() )
+        parentItem = m_rootItem;
+    else
+        parentItem = static_cast<FileItem*>( parent.internalPointer() );
+    return parentItem->getRowCount();
 }

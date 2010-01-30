@@ -12,5 +12,8 @@
         <file alias="folder">Icons/folder.png</file>
         <file alias="folder-add">Icons/addFolder.png</file>
         <file alias="file-add">Icons/addFile.png</file>
+        <file alias="repository-sync">Icons/kget.png</file>
+        <file alias="repository-remote">Icons/nfs_unmount.png</file>
+        <file alias="repository-local">Icons/hdd_unmount.png</file>
     </qresource>
 </RCC>
