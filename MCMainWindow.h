@@ -1,7 +1,6 @@
 #ifndef MCMAINWINDOW_H
 #define MCMAINWINDOW_H
 
-#include "LocalRepositoryModel.h"
 
 #include <QMainWindow>
 
@@ -29,7 +28,7 @@ private slots:
 private:
     Ui::MCMainWindow *ui;
 
-    LocalRepositoryModel    m_localModel;
+    //LocalRepositoryModel    m_localModel;
 };
 
 #endif // MCMAINWINDOW_H

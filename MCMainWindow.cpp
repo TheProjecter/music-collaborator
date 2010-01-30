@@ -1,5 +1,8 @@
 #include "MCMainWindow.h"
 #include "ui_MCMainWindow.h"
+
+#include "FtpRepositoryModel.h"
+#include "LocalRepositoryModel.h"
 #include "PreferencesDialog.h"
 
 #include <QDir>
@@ -11,8 +14,8 @@ MCMainWindow::MCMainWindow(QWidget *parent) :
     ui(new Ui::MCMainWindow)
 {
     ui->setupUi(this);
-
-    ui->m_localRepositoryView->setModel( &m_localModel );
+    ui->m_localRepositoryView->setModel( new LocalRepositoryModel() );
+    ui->m_remoteRepositoryView->setModel( new FtpRepositoryModel() );
 }
 
 MCMainWindow::~MCMainWindow()
@@ -50,7 +53,8 @@ void MCMainWindow::on_actionAdd_Project_Folder_triggered()
     QString dir = QFileDialog::getExistingDirectory( this, "Select project directory", s.value( "last-directory" ).toString() );
     if( !dir.isNull() )
     {
-        m_localModel.addFile( dir );
+        LocalRepositoryModel* localModel = static_cast<LocalRepositoryModel*>( ui->m_localRepositoryView->model() );
+        localModel->addFile( QFileInfo( dir ) );
         s.setValue( "last-directory", dir );
     }
 }
@@ -61,7 +65,6 @@ void MCMainWindow::on_actionAdd_Project_File_triggered()
     QString dir = QFileDialog::getOpenFileName( this, "Select project file", s.value( "last-directory" ).toString() );
     if( !dir.isNull() )
     {
-
         s.setValue( "last-directory", dir );
     }
 }
@@ -69,9 +72,6 @@ void MCMainWindow::on_actionAdd_Project_File_triggered()
 void MCMainWindow::on_actionPreferences_triggered()
 {
     PreferencesDialog* dlg = new PreferencesDialog( this );
-    if( dlg->exec() )
-    {
-
-    }
+    dlg->exec();
     delete dlg;
 }
