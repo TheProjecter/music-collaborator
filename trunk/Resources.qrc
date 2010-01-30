@@ -5,5 +5,12 @@
         <file alias="icon-remove">Icons/remove.png</file>
         <file alias="icon-up">Icons/up.png</file>
         <file alias="icon-down">Icons/down.png</file>
+        <file alias="folder-new-content">Icons/folder_bookmarks.png</file>
+        <file>Icons/folder_downloads.png</file>
+        <file alias="folder-inactive">Icons/folder_grey.png</file>
+        <file alias="folder-problem">Icons/folder_important.png</file>
+        <file alias="folder">Icons/folder.png</file>
+        <file alias="folder-add">Icons/addFolder.png</file>
+        <file alias="file-add">Icons/addFile.png</file>
     </qresource>
 </RCC>

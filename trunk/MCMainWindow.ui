@@ -161,7 +161,7 @@
      <x>0</x>
      <y>0</y>
      <width>506</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -206,8 +206,8 @@
   </action>
   <action name="actionAdd_Project_File">
    <property name="icon">
-    <iconset>
-     <normaloff>:/Icons/icon-add-file</normaloff>:/Icons/icon-add-file</iconset>
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/file-add</normaloff>:/Icons/file-add</iconset>
    </property>
    <property name="text">
     <string>Add Project File ...</string>
@@ -218,8 +218,8 @@
   </action>
   <action name="actionAdd_Project_Folder">
    <property name="icon">
-    <iconset>
-     <normaloff>:/Icons/icon-add-folder</normaloff>:/Icons/icon-add-folder</iconset>
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/folder-add</normaloff>:/Icons/folder-add</iconset>
    </property>
    <property name="text">
     <string>Add Project Folder...</string>

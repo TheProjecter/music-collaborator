@@ -1,14 +1,11 @@
-HEADERS += MusicCollaboratorDialog.h \
-    MCMainWindow.h \
+HEADERS += MCMainWindow.h \
     PreferencesDialog.h \
     LocalRepositoryModel.h
-SOURCES += MusicCollaboratorDialog.cpp \
-    MCMainWindow.cpp \
+SOURCES += MCMainWindow.cpp \
     main.cpp \
     PreferencesDialog.cpp \
     LocalRepositoryModel.cpp
-FORMS += MusicCollaboratorDialog.ui \
-    MCMainWindow.ui \
+FORMS += MCMainWindow.ui \
     PreferencesDialog.ui
 RESOURCES += Resources.qrc
 QT += network

@@ -50,7 +50,7 @@ void MCMainWindow::on_actionAdd_Project_Folder_triggered()
     QString dir = QFileDialog::getExistingDirectory( this, "Select project directory", s.value( "last-directory" ).toString() );
     if( !dir.isNull() )
     {
-        m_localModel.addFile( QFileInfo( dir ) );
+        m_localModel.addFile( dir );
         s.setValue( "last-directory", dir );
     }
 }
