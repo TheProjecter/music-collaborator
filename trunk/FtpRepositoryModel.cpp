@@ -10,7 +10,6 @@ FtpRepositoryModel::FtpRepositoryModel()
     : m_currentlyScannedFile(0), m_ftpConnection( 0 )
 {
     m_rootItem = new FtpFileItem( 0, QUrlInfo(), 0 );
-    //m_currentlyScannedFile = m_rootItem;
     refreshFileListing();
 }
 
@@ -146,10 +145,14 @@ void FtpRepositoryModel::ftpCommandFinished( int id, bool error )
 
 void FtpRepositoryModel::ftpFileListing(const QUrlInfo &urlinfo)
 {
-    qDebug() << "Got listing:" << urlinfo.name()<<". Adding as item"<<m_currentlyScannedFile->getRowCount();
+    qDebug() << "Got listing:" << urlinfo.name()<<". Adding as item"<<m_currentlyScannedFile->getRowCount() << "to" <<
+            m_currentlyScannedFile->urlInfo().name();
 
-    beginInsertRows( QModelIndex(),
-                     m_currentlyScannedFile->getRowCount(),
+    QModelIndex index = QModelIndex();
+    if( m_currentlyScannedFile != m_rootItem )
+        index=createIndex( m_currentlyScannedFile->getRowNumber(), 0, m_currentlyScannedFile->parent() );
+
+    beginInsertRows( index, m_currentlyScannedFile->getRowCount(),
                      m_currentlyScannedFile->getRowCount() );
     m_currentlyScannedFile->addFile( urlinfo );
     endInsertRows();
