@@ -14,11 +14,17 @@ public:
     FtpFileItem* parent() { return m_parent; }
     const QUrlInfo& urlInfo() const { return m_urlInfo; }
     void addFile( const QUrlInfo& );
+    bool isScanned() const { return m_scanned; }
+    QString getFullPath();
+    FtpFileItem* getNextSibling();
+    FtpFileItem* getFirstChild() { return m_children[0]; }
+
 protected:
     int                     m_rownumber;
     QUrlInfo                m_urlInfo;
     FtpFileItem*            m_parent;
     QHash<int,FtpFileItem*> m_children;
+    bool                    m_scanned;
 };
 
 #endif // FTPFtpFileItem_H
