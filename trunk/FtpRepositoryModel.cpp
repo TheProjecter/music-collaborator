@@ -143,20 +143,23 @@ void FtpRepositoryModel::ftpCommandFinished( int id, bool error )
     }
 }
 
+
 void FtpRepositoryModel::ftpFileListing(const QUrlInfo &urlinfo)
 {
-    qDebug() << "Got listing:" << urlinfo.name()<<". Adding as item"<<m_currentlyScannedFile->getRowCount() << "to" <<
-            m_currentlyScannedFile->urlInfo().name();
+    qDebug() << "Got listing:" << urlinfo.name()<<". Adding as item"<<m_currentlyScannedFile->getRowCount() <<
+            "to" << m_currentlyScannedFile->urlInfo().name();
 
     QModelIndex index = QModelIndex();
     if( m_currentlyScannedFile != m_rootItem )
-        index=createIndex( m_currentlyScannedFile->getRowNumber(), 0, m_currentlyScannedFile->parent() );
+        index=createIndex( m_currentlyScannedFile->getRowNumber(), 0, m_currentlyScannedFile );
 
     beginInsertRows( index, m_currentlyScannedFile->getRowCount(),
                      m_currentlyScannedFile->getRowCount() );
     m_currentlyScannedFile->addFile( urlinfo );
     endInsertRows();
 }
+
+
 
 void FtpRepositoryModel::resetFtpConnection()
 {
@@ -204,9 +207,17 @@ FtpFileItem* FtpRepositoryModel::findNextUnScannedItem(FtpFileItem *fi )
     {
         qDebug() << "findNextUnScannedItem: Testing" << fi->urlInfo().name() << "for scanned";
         FtpFileItem* tempitem = findNextUnScannedItem( fi->getFirstChild() );
-        if( tempitem==0 )
-            tempitem = findNextUnScannedItem( fi->getNextSibling() );
-        return tempitem;
+        if( tempitem==0 || tempitem->isScanned() )
+        {
+            for( ; fi!=0; fi = fi->getNextSibling() )
+            {
+                tempitem = findNextUnScannedItem( fi->getNextSibling() );
+                if( tempitem!= 0 && !tempitem->isScanned() )
+                    return tempitem;
+            }
+        }
+        else if( tempitem )
+            return tempitem;
     }
     else
     {
@@ -216,4 +227,5 @@ FtpFileItem* FtpRepositoryModel::findNextUnScannedItem(FtpFileItem *fi )
             qDebug() << "findNextUnScannedItem: Item" << fi->urlInfo().name() << "is unscanned, returning it";
         return fi;
     }
+    return 0;
 }
