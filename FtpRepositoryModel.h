@@ -27,8 +27,11 @@ protected slots:
 protected:
     void resetFtpConnection();
     void refreshFileListing();
+    void scanFile( FtpFileItem* );
+    FtpFileItem* findNextUnScannedItem( FtpFileItem* );
 
     FtpFileItem*        m_rootItem;
+    FtpFileItem*        m_currentlyScannedFile;
     QFtp*               m_ftpConnection;
 };
 

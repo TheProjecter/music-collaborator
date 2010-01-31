@@ -15,3 +15,4 @@ FORMS += MCMainWindow.ui \
     PreferencesDialog.ui
 RESOURCES += Resources.qrc
 QT += network
+TARGET = Music Collaborator

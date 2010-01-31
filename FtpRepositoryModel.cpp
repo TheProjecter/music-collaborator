@@ -7,9 +7,10 @@
 #include <QUrl>
 
 FtpRepositoryModel::FtpRepositoryModel()
-    : m_ftpConnection( 0 )
+    : m_currentlyScannedFile(0), m_ftpConnection( 0 )
 {
     m_rootItem = new FtpFileItem( 0, QUrlInfo(), 0 );
+    //m_currentlyScannedFile = m_rootItem;
     refreshFileListing();
 }
 
@@ -53,7 +54,7 @@ QVariant FtpRepositoryModel::data(const QModelIndex &index, int role) const
         v = "A statustip stuffy .. ";
     else
         v = QVariant();
-    qDebug() << "Returning"<<v.toString()<<"from data()";
+    //qDebug() << "Returning"<<v.toString()<<"from data()";
     return v;
 }
 
@@ -96,7 +97,7 @@ int FtpRepositoryModel::rowCount( const QModelIndex &parent ) const
     else
         parentItem = static_cast<FtpFileItem*>( parent.internalPointer() );
     int rc = parentItem->getRowCount();
-    qDebug() << "Returning" << rc << "from rowCount";
+    //qDebug() << "Returning" << rc << "from rowCount";
     return rc;
 }
 
@@ -105,7 +106,15 @@ void FtpRepositoryModel::ftpCommandFinished( int id, bool error )
 {
     if( m_ftpConnection->currentCommand()==QFtp::List )
     {
-        qDebug() << "Directory listing complete";
+        if( !error )
+        {
+            qDebug() << "Directory listing successful";
+            m_currentlyScannedFile = findNextUnScannedItem( m_currentlyScannedFile );
+            if( m_currentlyScannedFile )
+                scanFile( m_currentlyScannedFile );
+        }
+        else
+            qDebug() << "Directory listing failed";
     }
 
     if( error )
@@ -173,5 +182,28 @@ void FtpRepositoryModel::refreshFileListing()
     QString dir = settings.value( "ftp-dir" ).toString();
     if( !dir.isEmpty() )
         m_ftpConnection->cd( dir );
-    m_ftpConnection->list();
+    //m_ftpConnection->list();
+    scanFile( m_rootItem );
+}
+
+void FtpRepositoryModel::scanFile(FtpFileItem *fileItem)
+{
+    m_currentlyScannedFile = fileItem;
+    m_ftpConnection->list( m_currentlyScannedFile->getFullPath() );
+}
+
+FtpFileItem* FtpRepositoryModel::findNextUnScannedItem(FtpFileItem *fi )
+{
+    FtpFileItem* tempitem = fi;
+    if( tempitem->isScanned() )
+    {
+        if( tempitem->getFirstChild()!=0 )
+        {
+            tempitem = findNextUnScannedItem( fi->getFirstChild() );
+        }
+        else if( tempitem->getNextSibling()!=0 )
+        {
+            tempitem = findNextUnScannedItem( tempitem->getNextSibling() );
+        }
+    }
 }
