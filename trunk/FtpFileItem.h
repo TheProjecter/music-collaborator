@@ -18,6 +18,7 @@ public:
     QString getFullPath();
     FtpFileItem* getNextSibling();
     FtpFileItem* getFirstChild() { return m_children[0]; }
+    void setScanned( bool scanned ) { m_scanned=scanned; }
 
 protected:
     int                     m_rownumber;

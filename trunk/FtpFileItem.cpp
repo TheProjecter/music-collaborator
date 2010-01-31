@@ -25,9 +25,11 @@ QString FtpFileItem::getFullPath()
 {
     QString path = m_urlInfo.name();
     FtpFileItem* p = m_parent;
-    while( p->parent()!=0 )
+    while( p !=0 )
     {
-        path = QString( "%1/%2" ).arg( p->urlInfo().name() ).arg( path );
+        QString pPath = p->urlInfo().name();
+        if( !pPath.isEmpty() )
+            path = QString( "%1/%2" ).arg( p->urlInfo().name() ).arg( path );
         p = p->parent();
     }
     return path;
