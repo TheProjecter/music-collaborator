@@ -17,7 +17,7 @@ public:
     bool isScanned() const { return m_scanned; }
     QString getFullPath();
     FtpFileItem* getNextSibling();
-    FtpFileItem* getFirstChild() { return m_children[0]; }
+    FtpFileItem* getFirstChild() { if( m_children.size()>0 ) return m_children[0]; return 0; }
     void setScanned( bool scanned ) { m_scanned=scanned; }
 
 protected:
