@@ -68,7 +68,12 @@ QVariant LocalRepositoryModel::data(const QModelIndex &index, int role) const
     if( role == Qt::DisplayRole )
         return item->fileInfo().fileName();
     else if( role==Qt::DecorationRole )
-        return QIcon( ":/folder" );
+    {
+        if( item->fileInfo().isDir() )
+            return QIcon( ":/Icons/folder" );
+        else
+            return QIcon( ":/Icons/appicon");
+    }
     else if( role==Qt::ToolTipRole )
         return "A tooltip stuffy .. ";
     else if( role == Qt::StatusTipRole )

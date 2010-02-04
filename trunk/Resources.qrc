@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/Icons">
         <file alias="icon-add">Icons/add.png</file>
-        <file alias="icon-application">Icons/appicon.png</file>
+        <file alias="appicon">Icons/appicon.png</file>
         <file alias="icon-remove">Icons/remove.png</file>
         <file alias="icon-up">Icons/up.png</file>
         <file alias="icon-down">Icons/down.png</file>
@@ -15,5 +15,29 @@
         <file alias="repository-sync">Icons/kget.png</file>
         <file alias="repository-remote">Icons/nfs_unmount.png</file>
         <file alias="repository-local">Icons/hdd_unmount.png</file>
+        <file>Icons/chat.png</file>
+        <file>Icons/compress-folder.png</file>
+        <file>Icons/error.png</file>
+        <file>Icons/file-audio.png</file>
+        <file>Icons/folder_new.png</file>
+        <file>Icons/folder-bookmarks.png</file>
+        <file>Icons/folder-development.png</file>
+        <file>Icons/folder-downloads.png</file>
+        <file>Icons/folder-important.png</file>
+        <file>Icons/folder-locked.png</file>
+        <file>Icons/folder-remote.png</file>
+        <file>Icons/folder-saved-search.png</file>
+        <file>Icons/folder-sound.png</file>
+        <file>Icons/important.png</file>
+        <file>Icons/info.png</file>
+        <file>Icons/mic2.png</file>
+        <file>Icons/mic.png</file>
+        <file>Icons/mic-note.png</file>
+        <file>Icons/notes.png</file>
+        <file>Icons/preferences.png</file>
+        <file>Icons/speaker.png</file>
+        <file>Icons/speaker-note.png</file>
+        <file>Icons/synchronize.png</file>
+        <file>Icons/user.png</file>
     </qresource>
 </RCC>

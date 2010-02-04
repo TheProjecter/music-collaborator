@@ -42,19 +42,26 @@ QVariant FtpRepositoryModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     FtpFileItem* item = static_cast<FtpFileItem*>( index.internalPointer() );
-    QVariant v;
     if( role == Qt::DisplayRole )
-        v = item->urlInfo().name();
+    {
+        return item->urlInfo().name();
+    }
     else if( role==Qt::DecorationRole )
-        v = QIcon( ":/folder" );
+    {
+        if( item->urlInfo().isDir() )
+            return QIcon( ":/Icons/folder" );
+        else
+            return QIcon( ":/Icons/appicon" );
+    }
     else if( role==Qt::ToolTipRole )
-        v = "A tooltip stuffy .. ";
+    {
+        return "A tooltip stuffy .. ";
+    }
     else if( role == Qt::StatusTipRole )
-        v = "A statustip stuffy .. ";
-    else
-        v = QVariant();
-    //qDebug() << "Returning"<<v.toString()<<"from data()";
-    return v;
+    {
+        return "A statustip stuffy .. ";
+    }
+    return QVariant();
 }
 
 
@@ -95,9 +102,7 @@ int FtpRepositoryModel::rowCount( const QModelIndex &parent ) const
         parentItem = m_rootItem;
     else
         parentItem = static_cast<FtpFileItem*>( parent.internalPointer() );
-    int rc = parentItem->getRowCount();
-    //qDebug() << "Returning" << rc << "from rowCount for" << parentItem->urlInfo().name();
-    return rc;
+    return parentItem->getRowCount();
 }
 
 
@@ -107,13 +112,11 @@ void FtpRepositoryModel::ftpCommandFinished( int id, bool error )
     {
         if( !error )
         {
-            //qDebug() << "Directory listing successful for file" << m_currentlyScannedFile->urlInfo().name();
             m_currentlyScannedFile->setScanned( true );
             m_currentlyScannedFile = findNextUnScannedItem( m_rootItem );
 
             if( m_currentlyScannedFile && !m_currentlyScannedFile->isScanned() )
             {
-                //qDebug() << "Next unscanned file is" << m_currentlyScannedFile->urlInfo().name();
                 scanFile( m_currentlyScannedFile );
             }
         }
@@ -150,9 +153,6 @@ void FtpRepositoryModel::ftpCommandFinished( int id, bool error )
 
 void FtpRepositoryModel::ftpFileListing(const QUrlInfo &urlinfo)
 {
-    //qDebug() << "Got listing:" << urlinfo.name()<<". Adding as item"<<m_currentlyScannedFile->getRowCount() <<
-    //        "to" << m_currentlyScannedFile->urlInfo().name();
-
     QModelIndex index = QModelIndex();
     if( m_currentlyScannedFile != m_rootItem )
         index=createIndex( m_currentlyScannedFile->getRowNumber(), 0, m_currentlyScannedFile );
@@ -194,20 +194,17 @@ void FtpRepositoryModel::refreshFileListing()
     QString dir = settings.value( "ftp-dir" ).toString();
     if( !dir.isEmpty() )
         m_ftpConnection->cd( dir );
-    //m_ftpConnection->list();
     scanFile( m_rootItem );
 }
 
 void FtpRepositoryModel::scanFile( FtpFileItem *fileItem )
 {
-    //qDebug() << "Starting scan of file" << fileItem->getFullPath();
     m_currentlyScannedFile = fileItem;
     m_ftpConnection->list( m_currentlyScannedFile->getFullPath() );
 }
 
 FtpFileItem* FtpRepositoryModel::findNextUnScannedItem(FtpFileItem *fi )
 {
-    //qDebug() << "findNextUnScannedItem(" << fi->urlInfo().name()<<")";
     if( !fi->isScanned() )
     {
         if( fi->urlInfo().isDir() )
@@ -229,6 +226,5 @@ FtpFileItem* FtpRepositoryModel::findNextUnScannedItem(FtpFileItem *fi )
         if( item && !item->isScanned() )
             return item;
     }
-    //qDebug() << "returning 0";
     return 0;
 }
