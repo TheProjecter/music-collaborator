@@ -10,10 +10,8 @@ FileItem::FileItem(FileItem *parent, const QFileInfo &fileInfo, int rowNumber)
     {
         QDir dir( m_fileInfo.absoluteFilePath() );
         QFileInfoList lst = dir.entryInfoList( QDir::AllEntries | QDir::NoDotAndDotDot );
-        qDebug() << "Scanning" << lst.size() << "subfiles of" << m_fileInfo.absoluteFilePath();
         for( int i=0; i<lst.size(); ++i )
         {
-            qDebug() << "Creating fileitem nr"<<i<<"for path" << lst.at( i ).absoluteFilePath();
             FileItem* fi = new FileItem( this, lst[i].absoluteFilePath(), i );
             m_children[i] = fi;
         }
