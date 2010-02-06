@@ -2,6 +2,7 @@
 #include "MCMainWindow.h"
 
 #include <QApplication>
+#include <QIcon>
 
 int main( int arc, char** argv )
 {
@@ -10,6 +11,7 @@ int main( int arc, char** argv )
     app.setApplicationVersion( "0.1" );
     app.setOrganizationName( "Svansoft" );
     app.setOrganizationDomain( "svans.net" );
+    app.setWindowIcon( QIcon( "://Icons/appicon" ) );
 
     QObject::connect( &app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()) );
 

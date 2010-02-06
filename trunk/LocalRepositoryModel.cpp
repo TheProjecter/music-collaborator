@@ -24,6 +24,7 @@ LocalRepositoryModel::LocalRepositoryModel()
     }
 }
 
+
 LocalRepositoryModel::~LocalRepositoryModel()
 {
     QSettings settings;
@@ -72,7 +73,7 @@ QVariant LocalRepositoryModel::data(const QModelIndex &index, int role) const
         if( item->fileInfo().isDir() )
             return QIcon( ":/Icons/folder" );
         else
-            return QIcon( ":/Icons/appicon");
+            return QIcon( ":/Icons/audiofile");
     }
     else if( role==Qt::ToolTipRole )
         return "A tooltip stuffy .. ";
