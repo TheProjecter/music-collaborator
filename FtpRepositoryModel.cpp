@@ -51,7 +51,7 @@ QVariant FtpRepositoryModel::data(const QModelIndex &index, int role) const
         if( item->urlInfo().isDir() )
             return QIcon( ":/Icons/folder" );
         else
-            return QIcon( ":/Icons/appicon" );
+            return QIcon( ":/Icons/audiofile" );
     }
     else if( role==Qt::ToolTipRole )
     {

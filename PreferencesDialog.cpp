@@ -85,26 +85,31 @@ void PreferencesDialog::ftpCommandFinished( int id, bool error )
     {
         if( error )
         {
-            QMessageBox::information(this, tr("FTP"),
-                                                  tr("Unable to connect to the FTP server "
-                                                     "at %1. Please check that the host "
-                                                     "name is correct.")
-                                                  .arg( ui->edtServerURL->text() ));
+            QMessageBox msgbox;
+            msgbox.setText( "Unable to connect to FTP server." );
+            msgbox.setInformativeText( "Please verify that the server URL points to a valid FTP server." );
+            msgbox.setDetailedText( m_ftp->errorString() );
+            msgbox.setIconPixmap( QPixmap( ":/Icons/warning" ).scaled( 64, 64 ) );
+            msgbox.exec();
         }
     }
     else if( m_ftp->currentCommand() == QFtp::Login )
     {
         if( error )
         {
-            QMessageBox::information(this, tr("FTP"),
-                                                  tr("Unable to login to the FTP server.  "
-                                                     "Please check that the username and "
-                                                     "password is correct.") );
+            QMessageBox msgbox;
+            msgbox.setText( "Unable to login to the FTP server." );
+            msgbox.setInformativeText( "Please verify that the user credentials you specified are correct." );
+            msgbox.setDetailedText( m_ftp->errorString() );
+            msgbox.setIconPixmap( QPixmap( "://Icons/warning" ).scaled( 64, 64 ) );
+            msgbox.exec();
         }
         else
         {
-            QMessageBox::information( this, "FTP",
-                                      "Successfully connected to server!" );
+            QMessageBox msgbox;
+            msgbox.setText( "Successfully connected to the FTP server!" );
+            msgbox.setIconPixmap( QPixmap( ":/Icons/information" ).scaled( 64, 64 ) );
+            msgbox.exec();
         }
     }
 }

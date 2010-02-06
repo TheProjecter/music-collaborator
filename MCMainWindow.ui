@@ -96,7 +96,7 @@ selection-background-color: rgb(254, 255, 220);</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="Resources.qrc">:/Icons/repository-local</pixmap>
+            <pixmap>:/Icons/repository-local</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -131,7 +131,7 @@ selection-background-color: rgb(254, 255, 220);</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="Resources.qrc">:/Icons/repository-remote</pixmap>
+            <pixmap>:/Icons/repository-remote</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -154,13 +154,16 @@ selection-background-color: rgb(254, 255, 220);</string>
      <x>0</x>
      <y>0</y>
      <width>576</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionAdd_Project_Folder"/>
+    <addaction name="actionRemove_Share"/>
+    <addaction name="separator"/>
     <addaction name="actionE_xit"/>
    </widget>
    <widget class="QMenu" name="menuTools">
@@ -189,46 +192,62 @@ selection-background-color: rgb(254, 255, 220);</string>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionAdd_Project_File"/>
+   <addaction name="actionE_xit"/>
+   <addaction name="separator"/>
    <addaction name="actionAdd_Project_Folder"/>
+   <addaction name="actionRemove_Share"/>
+   <addaction name="separator"/>
+   <addaction name="actionPreferences"/>
   </widget>
   <action name="actionE_xit">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Icons/exit</normaloff>:/Icons/exit</iconset>
+   </property>
    <property name="text">
     <string>E&amp;xit</string>
    </property>
-  </action>
-  <action name="actionAdd_Project_File">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/file-add</normaloff>:/Icons/file-add</iconset>
-   </property>
-   <property name="text">
-    <string>Add Project File ...</string>
-   </property>
    <property name="toolTip">
-    <string>Add a new local project file to share</string>
+    <string>Quit the Application</string>
    </property>
   </action>
   <action name="actionAdd_Project_Folder">
    <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/folder-add</normaloff>:/Icons/folder-add</iconset>
+    <iconset>
+     <normaloff>:/Icons/add</normaloff>:/Icons/add</iconset>
    </property>
    <property name="text">
-    <string>Add Project Folder...</string>
+    <string>Add Project...</string>
    </property>
    <property name="toolTip">
-    <string>Add a new project folder to share</string>
+    <string>Add a new project from local drive to share...</string>
    </property>
   </action>
   <action name="actionPreferences">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Icons/preferences</normaloff>:/Icons/preferences</iconset>
+   </property>
    <property name="text">
     <string>Preferences...</string>
    </property>
+   <property name="toolTip">
+    <string>Modify application preferences</string>
+   </property>
+  </action>
+  <action name="actionRemove_Share">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Icons/remove</normaloff>:/Icons/remove</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Share</string>
+   </property>
+   <property name="toolTip">
+    <string>Stop sharing the selected project...</string>
+   </property>
   </action>
  </widget>
- <resources>
-  <include location="Resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
