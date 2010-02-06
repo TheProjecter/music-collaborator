@@ -7,6 +7,7 @@
 
 #include <QDir>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QSettings>
 
 MCMainWindow::MCMainWindow(QWidget *parent) :
@@ -74,6 +75,23 @@ void MCMainWindow::on_actionAdd_Project_File_triggered()
         s.setValue( "last-directory", dir );
     }
 }
+
+
+void MCMainWindow::on_actionRemove_Share_triggered()
+{
+    QModelIndex currIx = ui->m_localRepositoryView->currentIndex();
+    QString name = ui->m_localRepositoryView->model()->data( currIx, Qt::DisplayRole ).toString();
+    QMessageBox msgbox;
+    msgbox.setText( QString( "Are you sure you want to stop the collaboration of %0?" ).arg( name ) );
+    msgbox.setInformativeText( "Stopping collaborating a project means it will get deleted from the server" );
+    msgbox.setStandardButtons( QMessageBox::Yes | QMessageBox::No );
+    msgbox.exec();
+    if( msgbox.clickedButton() == msgbox.button( QMessageBox::Yes ) )
+    {
+        ui->m_localRepositoryView->model()->removeRow( currIx.row(), currIx.parent() );
+    }
+}
+
 
 void MCMainWindow::on_actionPreferences_triggered()
 {

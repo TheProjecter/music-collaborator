@@ -21,6 +21,7 @@ public:
     QModelIndex	index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
     QModelIndex	parent ( const QModelIndex & index ) const;
     int	rowCount( const QModelIndex & parent = QModelIndex() ) const;
+    bool removeRow(int row, const QModelIndex &parent);
 
 protected:
     FileItem*           m_rootItem;
