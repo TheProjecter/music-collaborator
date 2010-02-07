@@ -5,7 +5,7 @@
 
 FileItem::FileItem(FileItem *parent, const QFileInfo &fileInfo, int rowNumber)
     : m_rownumber( rowNumber ), m_fileInfo( fileInfo ), m_parent( parent ),
-    m_status( Unknown )
+    m_status( Unknown ), m_scanned( false )
 {
     if( m_fileInfo.isDir() )
     {
@@ -40,14 +40,131 @@ FileItem* FileItem::child( int n )
 }
 
 
+
+FileItem* FileItem::child( const QString& name )
+{
+    for( int i=0; i<m_children.count(); ++i )
+    {
+        FileItem* child = m_children[i];
+        if( child->getFileName() == name )
+            return child;
+    }
+    return 0;
+}
+
+
 int FileItem::getRowCount() const
 {
     return m_children.size();
 }
 
 
-void FileItem::addFile( const QFileInfo &fileinfo )
+QString FileItem::getFileName() const
 {
-    FileItem* fi = new FileItem( this, fileinfo, m_children.size() );
-    m_children[ m_children.size() ] = fi;
+    QString fname = m_fileInfo.fileName();
+    if( fname.isEmpty() )
+        fname = m_remoteFileInfo.name();
+    return fname;
+}
+
+
+bool FileItem::isFolder()
+{
+    if( m_fileInfo.filePath().isEmpty() )
+        return m_remoteFileInfo.isDir();
+    else
+        return m_fileInfo.isDir();
+    return false;
+}
+
+
+void FileItem::addChild( FileItem *child )
+{
+    child->setParent( this );
+    child->m_parent = this;
+    m_children[ m_children.count() ] = child;
+    child->m_rownumber = m_children.count();
+}
+
+
+
+
+
+QString FileItem::getRepositoryPath() const
+{
+    QString path = getFileName();
+    FileItem* p = m_parent;
+    while( p !=0 )
+    {
+        QString pPath = p->getFileName();
+        if( !pPath.isEmpty() )
+            path = QString( "%1/%2" ).arg( pPath ).arg( path );
+        p = p->parent();
+    }
+    return path;
+}
+
+
+QString FileItem::getLocalPath() const
+{
+    return m_fileInfo.absoluteFilePath();
+}
+
+
+FileItem* FileItem::getNextUnScanned()
+{
+    FileItem* unScanned = 0;
+    if( !isScanned() )
+        unScanned = this;
+
+    if( unScanned==0 && getRowCount()>0 )
+    {
+        unScanned = m_children[0]->getNextUnScanned();
+    }
+
+    if( unScanned==0 )
+    {
+        if( m_parent && ( m_parent->getRowCount() > (getRowNumber()+1) ) )
+        {
+            unScanned = m_parent->m_children[ getRowNumber()+1 ]->getNextUnScanned();
+        }
+    }
+
+    return unScanned;
+}
+
+
+void FileItem::scanComplete()
+{
+    setScanned( true );
+    if( m_remoteFileInfo.name().isEmpty() )
+    {
+        if( !m_fileInfo.absoluteFilePath().isEmpty() )
+            setStatus( LocallyAdded );
+        else
+            setStatus( Error );
+    }
+    else
+    {
+        if( m_fileInfo.absoluteFilePath().isEmpty() )
+            setStatus( Error );
+        else
+            setStatus( OnlyOnServer );
+    }
+}
+
+
+void FileItem::updateRemoteStatus( const QUrlInfo &urlinfo )
+{
+    m_remoteFileInfo = urlinfo;
+    if( !urlinfo.isDir() )
+        scanComplete();
+}
+
+
+void FileItem::setStatus( Status s )
+{
+    m_status = s;
+    qDebug() << "FileItem status of" << getRepositoryPath() << "set to" << s;
+    emit statusChanged( m_status );
 }

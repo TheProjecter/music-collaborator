@@ -1,6 +1,6 @@
 HEADERS += MCMainWindow.h \
     PreferencesDialog.h \
-    LocalRepositoryModel.h \
+    RepositoryModel.h \
     FileItem.h \
     FtpRepositoryModel.h \
     FtpFileItem.h \
@@ -8,7 +8,7 @@ HEADERS += MCMainWindow.h \
 SOURCES += MCMainWindow.cpp \
     main.cpp \
     PreferencesDialog.cpp \
-    LocalRepositoryModel.cpp \
+    RepositoryModel.cpp \
     FileItem.cpp \
     FtpRepositoryModel.cpp \
     FtpFileItem.cpp \

@@ -21,7 +21,6 @@ protected:
     void changeEvent(QEvent *e);
 
 private slots:
-    void on_actionAdd_Project_File_triggered();
     void on_actionRemove_Share_triggered();
     void on_actionAdd_Project_Folder_triggered();
     void on_actionPreferences_triggered();
