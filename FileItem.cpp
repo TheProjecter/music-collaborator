@@ -4,7 +4,8 @@
 #include <QDir>
 
 FileItem::FileItem(FileItem *parent, const QFileInfo &fileInfo, int rowNumber)
-    : m_rownumber( rowNumber ), m_fileInfo( fileInfo ), m_parent( parent )
+    : m_rownumber( rowNumber ), m_fileInfo( fileInfo ), m_parent( parent ),
+    m_status( Unknown )
 {
     if( m_fileInfo.isDir() )
     {
