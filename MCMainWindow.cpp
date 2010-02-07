@@ -15,7 +15,7 @@ MCMainWindow::MCMainWindow(QWidget *parent) :
     ui(new Ui::MCMainWindow)
 {
     ui->setupUi(this);
-    ui->m_localRepositoryView->setModel( new LocalRepositoryModel() );
+    ui->m_localRepositoryView->setModel( new RepositoryModel() );
     ui->m_remoteRepositoryView->setModel( new FtpRepositoryModel() );
 }
 
@@ -60,21 +60,13 @@ void MCMainWindow::on_actionAdd_Project_Folder_triggered()
     QString dir = QFileDialog::getExistingDirectory( this, "Select project directory", s.value( "last-directory" ).toString() );
     if( !dir.isNull() )
     {
-        LocalRepositoryModel* localModel = static_cast<LocalRepositoryModel*>( ui->m_localRepositoryView->model() );
+        RepositoryModel* localModel = static_cast<RepositoryModel*>( ui->m_localRepositoryView->model() );
         localModel->addFile( QFileInfo( dir ) );
         s.setValue( "last-directory", dir );
     }
 }
 
-void MCMainWindow::on_actionAdd_Project_File_triggered()
-{
-    QSettings s;
-    QString dir = QFileDialog::getOpenFileName( this, "Select project file", s.value( "last-directory" ).toString() );
-    if( !dir.isNull() )
-    {
-        s.setValue( "last-directory", dir );
-    }
-}
+
 
 
 void MCMainWindow::on_actionRemove_Share_triggered()

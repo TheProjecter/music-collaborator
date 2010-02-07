@@ -2,13 +2,8 @@
     <qresource prefix="/Icons">
         <file alias="icon-up">Icons/up.png</file>
         <file alias="icon-down">Icons/down.png</file>
-        <file alias="folder-new-content">Icons/folder_bookmarks.png</file>
-        <file>Icons/folder_downloads.png</file>
-        <file alias="folder-inactive">Icons/folder_grey.png</file>
-        <file alias="folder-problem">Icons/folder_important.png</file>
+        <file alias="folder-unknown">Icons/folder_grey.png</file>
         <file alias="folder">Icons/folder.png</file>
-        <file alias="folder-add">Icons/addFolder.png</file>
-        <file alias="file-add">Icons/addFile.png</file>
         <file alias="repository-sync">Icons/kget.png</file>
         <file alias="repository-remote">Icons/nfs_unmount.png</file>
         <file alias="repository-local">Icons/hdd_unmount.png</file>
@@ -40,5 +35,9 @@
         <file alias="remove">Icons/remove.png</file>
         <file alias="exit">Icons/exit.png</file>
         <file alias="appicon">Icons/music-collaborator.png</file>
+        <file alias="folder-locallyadded">Icons/folder-locallyadded.png</file>
+        <file alias="folder-error">Icons/folder-error.png</file>
+        <file alias="folder-remotelymodified">Icons/folder-remotelymodified.png</file>
+        <file alias="folder-onlyonserver">Icons/folder-onlyonserver.png</file>
     </qresource>
 </RCC>
