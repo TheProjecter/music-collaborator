@@ -122,3 +122,34 @@ int LocalRepositoryModel::rowCount(const QModelIndex &parent) const
         parentItem = static_cast<FileItem*>( parent.internalPointer() );
     return parentItem->getRowCount();
 }
+
+
+void LocalRepositoryModel::ftpFileListing(const QUrlInfo &urlinfo)
+{
+
+}
+
+
+void LocalRepositoryModel::ftpCommandFinished( int id, bool error )
+{
+    if( m_ftp->currentCommand() == QFtp::ConnectToHost )
+    {
+    }
+    else if( m_ftp->currentCommand() == QFtp::Login )
+    {
+    }
+}
+
+
+void LocalRepositoryModel::resetFtpConnection()
+{
+    if( m_ftp!=0 )
+    {
+        m_ftp->abort();
+        m_ftp->deleteLater();
+        m_ftp = 0;
+    }
+
+    m_ftp = new QFtp();
+    connect( m_ftp, SIGNAL(commandFinished(int,bool)), this, SLOT(ftpCommandFinished(int,bool)));
+}
