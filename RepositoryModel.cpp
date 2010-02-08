@@ -46,7 +46,7 @@ RepositoryModel::~RepositoryModel()
     for( int i=0; i<lst.count(); ++i )
     {
         settings.setArrayIndex( i );
-        qDebug() << "Writing local path '" << lst[i] << "'";
+        //qDebug() << "Writing local path '" << lst[i] << "'";
         settings.setValue( "path", lst[i] );
     }
     settings.endArray();
@@ -64,12 +64,13 @@ void RepositoryModel::addFile( const QFileInfo &file )
 
 void RepositoryModel::addFile(FileItem *file, FileItem *parent)
 {
-    QModelIndex parentIndex;
+    QModelIndex parentIndex = QModelIndex();
     if( parent==0 )
         parent = m_rootItem;
 
     if( parent!=m_rootItem )
         parentIndex = createIndex( parent->getRowNumber(), 0, parent );
+
     emit beginInsertRows( parentIndex, parent->getRowCount(), parent->getRowCount() );
     parent->addChild( file );
     emit endInsertRows();
@@ -180,16 +181,12 @@ void RepositoryModel::fileItemStatusChanged( FileItem::Status status )
         QModelIndex ix = createIndex( item->getRowNumber(), 0, item );
         emit dataChanged( ix, ix );
     }
-    else
-    {
-        qWarning() << "Unable to cast fileStatus sender to FileItem";
-    }
 }
 
 
 void RepositoryModel::ftpFileListing( const QUrlInfo &urlinfo )
 {
-    qDebug() << "Listing returned" << urlinfo.name() << "for item" << m_currentlyScanned->getRepositoryPath();
+    //qDebug() << "Listing returned" << urlinfo.name() << "for item" << m_currentlyScanned->getRepositoryPath();
     QString itemName = urlinfo.name().right( urlinfo.name().length() -
                                              m_currentlyScanned->getRepositoryPath().length() );
     if( urlinfo.name() == m_currentlyScanned->getRepositoryPath() )
@@ -219,28 +216,15 @@ void RepositoryModel::ftpStateChanged( int state )
 
 void RepositoryModel::ftpCommandFinished( int id, bool error )
 {
-    if( m_ftp->currentCommand() == QFtp::ConnectToHost )
-    {
-    }
-    else if( m_ftp->currentCommand() == QFtp::Login )
-    {
-    }
-    else if( m_ftp->currentCommand() == QFtp::List )
+    if( m_ftp->currentCommand() == QFtp::List )
     {
         if( error )
         {
             qDebug() << m_ftp->errorString();
         }
-        else
-        {
-            qDebug() << "Listing command successful for " << m_currentlyScanned->getRepositoryPath();
-        }
+
         m_currentlyScanned->scanComplete();
-        m_currentlyScanned->setScanned( true );
-        QString lastScanned = m_currentlyScanned->getRepositoryPath();
         m_currentlyScanned = m_rootItem->getNextUnScanned();
-        qDebug() << "Got" << ( m_currentlyScanned==0?"NULL":m_currentlyScanned->getRepositoryPath() )
-                << "as next unscanned after" << lastScanned;
         if( m_currentlyScanned )
             scanFile( m_currentlyScanned );
     }
