@@ -147,9 +147,9 @@ void FileItem::scanComplete()
     else
     {
         if( m_fileInfo.absoluteFilePath().isEmpty() )
-            setStatus( Error );
-        else
             setStatus( OnlyOnServer );
+        else
+            setStatus( Error );
     }
 }
 

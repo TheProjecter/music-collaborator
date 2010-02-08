@@ -2,7 +2,7 @@
 #include "ui_MCMainWindow.h"
 
 #include "FtpRepositoryModel.h"
-#include "LocalRepositoryModel.h"
+#include "RepositoryModel.h"
 #include "PreferencesDialog.h"
 
 #include <QDir>
