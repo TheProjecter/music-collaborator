@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QDir>
 
-FileItem::FileItem(FileItem *parent, const QFileInfo &fileInfo, int rowNumber)
+FileItem::FileItem( FileItem *parent, const QFileInfo &fileInfo, int rowNumber )
     : m_rownumber( rowNumber ), m_fileInfo( fileInfo ), m_parent( parent ),
     m_status( Unknown ), m_scanned( false )
 {
@@ -83,7 +83,7 @@ void FileItem::addChild( FileItem *child )
     child->setParent( this );
     child->m_parent = this;
     m_children[ m_children.count() ] = child;
-    child->m_rownumber = m_children.count();
+    child->m_rownumber = m_children.count()-1;
 }
 
 
@@ -117,18 +117,8 @@ FileItem* FileItem::getNextUnScanned()
     if( !isScanned() )
         unScanned = this;
 
-    if( unScanned==0 && getRowCount()>0 )
-    {
-        unScanned = m_children[0]->getNextUnScanned();
-    }
-
-    if( unScanned==0 )
-    {
-        if( m_parent && ( m_parent->getRowCount() > (getRowNumber()+1) ) )
-        {
-            unScanned = m_parent->m_children[ getRowNumber()+1 ]->getNextUnScanned();
-        }
-    }
+    for( int i=0; i<getRowCount() && unScanned==0; ++i )
+        unScanned = m_children[i]->getNextUnScanned();
 
     return unScanned;
 }
