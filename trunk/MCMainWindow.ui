@@ -14,7 +14,7 @@
    <string>Music Collaborator</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resources.qrc">
     <normaloff>:/Icons/appicon</normaloff>:/Icons/appicon</iconset>
   </property>
   <property name="dockNestingEnabled">
@@ -32,116 +32,23 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QSplitter" name="splitter">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>1</verstretch>
-          </sizepolicy>
+        <widget class="QTreeView" name="m_localRepositoryView">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
          </property>
-         <widget class="QTreeView" name="m_localRepositoryView">
-          <property name="styleSheet">
-           <string notr="true">selection-color: rgb(0, 0, 0);
-selection-background-color: rgb(254, 255, 220);</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="animated">
-           <bool>true</bool>
-          </property>
-          <property name="allColumnsShowFocus">
-           <bool>true</bool>
-          </property>
-         </widget>
-         <widget class="QTreeView" name="m_remoteRepositoryView">
-          <property name="alternatingRowColors">
-           <bool>true</bool>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="animated">
-           <bool>true</bool>
-          </property>
-          <property name="allColumnsShowFocus">
-           <bool>true</bool>
-          </property>
-         </widget>
+         <property name="animated">
+          <bool>true</bool>
+         </property>
+         <property name="allColumnsShowFocus">
+          <bool>true</bool>
+         </property>
         </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="maximumSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>:/Icons/repository-local</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-           <property name="textInteractionFlags">
-            <set>Qt::TextSelectableByMouse</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QProgressBar" name="progressBar">
-           <property name="value">
-            <number>0</number>
-           </property>
-           <property name="invertedAppearance">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="maximumSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>:/Icons/repository-remote</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-           <property name="textInteractionFlags">
-            <set>Qt::TextSelectableByMouse</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
       </layout>
      </widget>
@@ -154,7 +61,7 @@ selection-background-color: rgb(254, 255, 220);</string>
      <x>0</x>
      <y>0</y>
      <width>576</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -211,7 +118,7 @@ selection-background-color: rgb(254, 255, 220);</string>
   </widget>
   <action name="actionE_xit">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/Icons/exit</normaloff>:/Icons/exit</iconset>
    </property>
    <property name="text">
@@ -223,7 +130,7 @@ selection-background-color: rgb(254, 255, 220);</string>
   </action>
   <action name="actionAdd_Project_Folder">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/Icons/add</normaloff>:/Icons/add</iconset>
    </property>
    <property name="text">
@@ -235,7 +142,7 @@ selection-background-color: rgb(254, 255, 220);</string>
   </action>
   <action name="actionPreferences">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/Icons/preferences</normaloff>:/Icons/preferences</iconset>
    </property>
    <property name="text">
@@ -247,7 +154,7 @@ selection-background-color: rgb(254, 255, 220);</string>
   </action>
   <action name="actionRemove_Share">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/Icons/remove</normaloff>:/Icons/remove</iconset>
    </property>
    <property name="text">
@@ -258,6 +165,8 @@ selection-background-color: rgb(254, 255, 220);</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -107,7 +107,7 @@ QVariant RepositoryModel::data(const QModelIndex &index, int role) const
             case FileItem::Error:
                 return QIcon( ":/Icons/folder-error" );
             case FileItem::LocallyAdded:
-                return QIcon( ":/Icons/folder-localyadded" );
+                return QIcon( ":/Icons/folder-locallyadded" );
             case FileItem::LocallyModified:
                 return QIcon( ":/Icons/folder-locallymodified" );
             case FileItem::LocallyRemoved:
@@ -179,6 +179,7 @@ void RepositoryModel::fileItemStatusChanged( FileItem::Status status )
     if( item )
     {
         QModelIndex ix = createIndex( item->getRowNumber(), 0, item );
+        qDebug() << "emitting dataChanged for index " << ix.row() << ix.column();
         emit dataChanged( ix, ix );
     }
 }
@@ -226,7 +227,10 @@ void RepositoryModel::ftpCommandFinished( int id, bool error )
         m_currentlyScanned->scanComplete();
         m_currentlyScanned = m_rootItem->getNextUnScanned();
         if( m_currentlyScanned )
+        {
+            qDebug() << "Next unscanned is " << m_currentlyScanned->getRepositoryPath();
             scanFile( m_currentlyScanned );
+        }
     }
 }
 
