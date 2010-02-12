@@ -1,7 +1,6 @@
 #include "MCMainWindow.h"
 #include "ui_MCMainWindow.h"
 
-#include "FtpRepositoryModel.h"
 #include "RepositoryModel.h"
 #include "PreferencesDialog.h"
 
@@ -16,7 +15,6 @@ MCMainWindow::MCMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->m_localRepositoryView->setModel( new RepositoryModel() );
-    //ui->m_remoteRepositoryView->setModel( new FtpRepositoryModel() );
 }
 
 MCMainWindow::~MCMainWindow()
@@ -24,9 +22,6 @@ MCMainWindow::~MCMainWindow()
     QAbstractItemModel* model = ui->m_localRepositoryView->model();
     ui->m_localRepositoryView->setModel( 0 );
     delete model;
-    //model = ui->m_remoteRepositoryView->model();
-    //ui->m_remoteRepositoryView->setModel( 0 );
-    //delete model;
     delete ui;
 }
 
