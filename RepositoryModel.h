@@ -2,6 +2,7 @@
 #define RepositoryModel_H
 
 #include "FileItem.h"
+#include "RevisionInfo.h"
 
 #include <QAbstractItemModel>
 #include <QFileInfo>
@@ -40,6 +41,8 @@ protected:
     FileItem*           m_currentlyScanned;
     QFileSystemWatcher* m_fsWatcher;
     QFtp*               m_ftp;
+
+    QMap< FileItem*, RevisionHistory > m_repoList;
 };
 
 #endif // RepositoryModel_H

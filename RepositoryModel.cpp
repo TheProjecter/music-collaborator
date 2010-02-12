@@ -22,9 +22,7 @@ RepositoryModel::RepositoryModel()
         settings.setArrayIndex( i );
         QString path = settings.value( "path" ).toString();
         FileItem* item = new FileItem( 0, path, 0 );
-        connect( item, SIGNAL(statusChanged(FileItem::Status)),
-                 this, SLOT(fileItemStatusChanged(FileItem::Status)) );
-        m_rootItem->addChild( item );
+        addFile( item, m_rootItem );
         m_fsWatcher->addPath( path );
     }
 
@@ -74,6 +72,9 @@ void RepositoryModel::addFile(FileItem *file, FileItem *parent)
     emit beginInsertRows( parentIndex, parent->getRowCount(), parent->getRowCount() );
     parent->addChild( file );
     emit endInsertRows();
+
+    if( parent==m_rootItem )
+        m_repoList[ file ];
 }
 
 
@@ -126,7 +127,28 @@ QVariant RepositoryModel::data(const QModelIndex &index, int role) const
             return QIcon( ":/Icons/audiofile");
     }
     else if( role==Qt::ToolTipRole )
+    {
+        switch ( item->status() )
+        {
+        case FileItem::Error:
+            return "Error occurred";
+        case FileItem::LocallyAdded:
+            return "Locally added";
+        case FileItem::LocallyModified:
+            return "Locally modified";
+        case FileItem::LocallyRemoved:
+            return "Locally removed";
+        case FileItem::NeedsUpdate:
+            return "Needs update";
+        case FileItem::OnlyOnServer:
+            return "Only exists on server";
+        case FileItem::Unknown:
+            return "Unknown";
+        case FileItem::UpToDate:
+            return "Up to date";
+        }
         return "A tooltip stuffy .. ";
+    }
     else if( role == Qt::StatusTipRole )
         return "A statustip stuffy .. ";
     return QVariant();
@@ -179,7 +201,6 @@ void RepositoryModel::fileItemStatusChanged( FileItem::Status status )
     if( item )
     {
         QModelIndex ix = createIndex( item->getRowNumber(), 0, item );
-        qDebug() << "emitting dataChanged for index " << ix.row() << ix.column();
         emit dataChanged( ix, ix );
     }
 }
@@ -187,14 +208,11 @@ void RepositoryModel::fileItemStatusChanged( FileItem::Status status )
 
 void RepositoryModel::ftpFileListing( const QUrlInfo &urlinfo )
 {
-    //qDebug() << "Listing returned" << urlinfo.name() << "for item" << m_currentlyScanned->getRepositoryPath();
-    QString itemName = urlinfo.name().right( urlinfo.name().length() -
-                                             m_currentlyScanned->getRepositoryPath().length() );
     if( urlinfo.name() == m_currentlyScanned->getRepositoryPath() )
     {
         return;
     }
-    FileItem* childItem = m_currentlyScanned->child( itemName );
+    FileItem* childItem = m_currentlyScanned->child( urlinfo.name() );
     if( childItem==0 )
     {
         childItem = new FileItem( 0, QFileInfo(), 0 );
@@ -228,7 +246,6 @@ void RepositoryModel::ftpCommandFinished( int id, bool error )
         m_currentlyScanned = m_rootItem->getNextUnScanned();
         if( m_currentlyScanned )
         {
-            qDebug() << "Next unscanned is " << m_currentlyScanned->getRepositoryPath();
             scanFile( m_currentlyScanned );
         }
     }

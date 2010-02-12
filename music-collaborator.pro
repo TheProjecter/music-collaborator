@@ -2,17 +2,15 @@ HEADERS += MCMainWindow.h \
     PreferencesDialog.h \
     RepositoryModel.h \
     FileItem.h \
-    FtpRepositoryModel.h \
-    FtpFileItem.h \
-    CompressionTask.h
+    CompressionTask.h \
+    RevisionInfo.h
 SOURCES += MCMainWindow.cpp \
     main.cpp \
     PreferencesDialog.cpp \
     RepositoryModel.cpp \
     FileItem.cpp \
-    FtpRepositoryModel.cpp \
-    FtpFileItem.cpp \
-    CompressionTask.cpp
+    CompressionTask.cpp \
+    RevisionInfo.cpp
 FORMS += MCMainWindow.ui \
     PreferencesDialog.ui
 RESOURCES += Resources.qrc

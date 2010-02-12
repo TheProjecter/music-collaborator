@@ -48,6 +48,7 @@ FileItem* FileItem::child( const QString& name )
         FileItem* child = m_children[i];
         if( child->getFileName() == name )
             return child;
+        //qDebug() << name << "doesn't match" << child->getFileName();
     }
     return 0;
 }
@@ -139,7 +140,10 @@ void FileItem::scanComplete()
         if( m_fileInfo.absoluteFilePath().isEmpty() )
             setStatus( OnlyOnServer );
         else
+        {
+
             setStatus( Error );
+        }
     }
 }
 
@@ -155,6 +159,5 @@ void FileItem::updateRemoteStatus( const QUrlInfo &urlinfo )
 void FileItem::setStatus( Status s )
 {
     m_status = s;
-    qDebug() << "FileItem status of" << getRepositoryPath() << "set to" << s;
     emit statusChanged( m_status );
 }
