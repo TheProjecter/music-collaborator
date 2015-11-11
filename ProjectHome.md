@@ -1,0 +1,1 @@
+This tool enables multiple parties to collaborate music creation by synchronizing the project between their computers via centralized storage.
